@@ -2,7 +2,7 @@
 
     body {
       font-family: 'Segoe UI', sans-serif;
-      background: #f0f4f8;
+      background: #0097B2;
       min-height: 100vh;
       padding: 2rem 1rem;
       color: #1a202c;
@@ -21,12 +21,12 @@
     header h1 {
       font-size: 2rem;
       font-weight: 700;
-      color: #1a56db;
+      color: #ffffff;
       letter-spacing: -0.5px;
     }
 
     header p {
-      color: #64748b;
+      color: #e0e0e0;
       margin-top: 0.4rem;
       font-size: 0.95rem;
     }
@@ -44,7 +44,7 @@
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.1em;
-      color: #1a56db;
+      color: #01d9ff;
       margin-bottom: 1.2rem;
       display: flex;
       align-items: center;
@@ -56,7 +56,7 @@
       display: inline-block;
       width: 3px;
       height: 14px;
-      background: #1a56db;
+      background: #01d9ff;
       border-radius: 2px;
     }
 
@@ -97,7 +97,7 @@
     }
 
     input:focus, select:focus, textarea:focus {
-      border-color: #1a56db;
+      border-color: #0097B2;
       background: #fff;
     }
 
@@ -113,7 +113,7 @@
     .checkbox-row input[type="checkbox"] {
       width: 18px;
       height: 18px;
-      accent-color: #1a56db;
+      accent-color: #0097B2;
     }
 
     .checkbox-row label {
@@ -127,7 +127,7 @@
     button[type="submit"] {
       width: 100%;
       padding: 14px;
-      background: #1a56db;
+      background: #01d9ff;
       color: #fff;
       font-size: 1rem;
       font-weight: 700;
@@ -167,7 +167,7 @@
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.08em;
-    color: #1a56db;
+    color: #01d9ff;
     }
 
     .btn-remove {
@@ -192,7 +192,7 @@
     padding: 9px;
     background: none;
     border: 1.5px dashed #93c5fd;
-    color: #1a56db;
+    color: #01d9ff;
     border-radius: 8px;
     font-size: 0.88rem;
     font-weight: 600;
