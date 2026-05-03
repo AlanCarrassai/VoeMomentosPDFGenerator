@@ -6,6 +6,34 @@
     <link rel="stylesheet" href="style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="script.js" defer></script>
+
+  <!-- Logos ocultas — compatível com file:// e servidor -->
+  <div style="display:none">
+    <img id="logo-voemomentos" src="logos/voemomentos.png">
+    <img id="logo-gol"         src="logos/gol.png">
+    <img id="logo-azul"        src="logos/azul.png">
+    <img id="logo-latam"       src="logos/latam.png">
+  </div>
+
+  <script>
+    function imgToBase64(imgEl) {
+      try {
+        const canvas = document.createElement('canvas');
+        canvas.width  = imgEl.naturalWidth  || imgEl.width;
+        canvas.height = imgEl.naturalHeight || imgEl.height;
+        canvas.getContext('2d').drawImage(imgEl, 0, 0);
+        return canvas.toDataURL('image/png');
+      } catch(e) { return null; }
+    }
+
+    window.logos = {};
+    window.addEventListener('load', () => {
+      window.logos.voemomentos = imgToBase64(document.getElementById('logo-voemomentos'));
+      window.logos.gol         = imgToBase64(document.getElementById('logo-gol'));
+      window.logos.azul        = imgToBase64(document.getElementById('logo-azul'));
+      window.logos.latam       = imgToBase64(document.getElementById('logo-latam'));
+    });
+  </script>
     <title>VoeMomentos PDF</title>
 </head>
 <body>
@@ -61,6 +89,10 @@
           <label for="duracao_voo_ida">Duração do Voo</label>
           <input type="text" id="duracao_voo_ida" placeholder="Ex: 1h30min">
         </div>
+        <div class="field">
+          <label for="qtd_pessoas_ida">Qtd. de Pessoas</label>
+          <input type="number" id="qtd_pessoas_ida" min="1" value="1" required>
+        </div>
         <div class="field span2">
           <div class="checkbox-row">
             <input type="checkbox" id="conexao_ida" onchange="toggleParadas('ida')">
@@ -70,10 +102,6 @@
         <div class="field" id="paradas_ida_field" style="display:none;">
           <label for="paradas_ida">Número de Paradas</label>
           <input type="number" id="paradas_ida" min="1" value="1">
-        </div>
-        <div class="field">
-          <label for="qtd_pessoas">Qtd. de Pessoas</label>
-          <input type="number" id="qtd_pessoas" min="1" value="1" required>
         </div>
       </div>
     </div>
@@ -106,6 +134,10 @@
           <label for="duracao_voo_volta">Duração do Voo</label>
           <input type="text" id="duracao_voo_volta" placeholder="Ex: 1h30min">
         </div>
+        <div class="field">
+          <label for="qtd_pessoas_volta">Qtd. de Pessoas</label>
+          <input type="number" id="qtd_pessoas_volta" min="1" value="1" required>
+        </div>
         <div class="field span2">
           <div class="checkbox-row">
             <input type="checkbox" id="conexao_volta" onchange="toggleParadas('volta')">
@@ -115,10 +147,6 @@
         <div class="field" id="paradas_volta_field" style="display:none;">
           <label for="paradas_volta">Número de Paradas</label>
           <input type="number" id="paradas_volta" min="1" value="1">
-        </div>
-        <div class="field">
-          <label for="qtd_pessoas">Qtd. de Pessoas</label>
-          <input type="number" id="qtd_pessoas" min="1" value="1" required>
         </div>
       </div>
     </div>
@@ -134,13 +162,17 @@
     <div class="card">
       <h2>Valores da Passagem</h2>
       <div class="form-grid">
-        <div class="field">
+        <div class="field span2">
           <label for="valor_passagem_pix">Valor Pix (R$)</label>
           <input type="number" id="valor_passagem_pix" min="0" placeholder="0,00">
         </div>
         <div class="field">
           <label for="valor_passagem_parcelado">Valor Parcelado (R$)</label>
           <input type="number" id="valor_passagem_parcelado" min="0" placeholder="0,00">
+        </div>
+        <div class="field">
+          <label for="qtd_parcelas">Qtd. Parcelas</label>
+          <input type="number" id="qtd_parcelas" min="1" value="1">
         </div>
       </div>
     </div>
