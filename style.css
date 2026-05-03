@@ -204,6 +204,29 @@
   background: #eff6ff;
   }
 
+    /* ── Voo interno dinâmica ─────────────────────────────── */
+  .voo_interno-item {
+  border: 1.5px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 1rem;
+  margin-bottom: 0.75rem;
+  }
+
+  .voo_interno-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.9rem;
+  }
+
+  .voo_interno-label {
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #01d9ff;
+  }
+
   /* ── Autocomplete aeroportos ──────────────────────── */
   .airport-dropdown {
     display: none;

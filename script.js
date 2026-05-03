@@ -27,6 +27,25 @@ document.getElementById('pdfForm').addEventListener('submit', async function(e) 
       });
     });
 
+    // Coletar bagagens dinâmicas
+    const voos_internos = [];
+    document.querySelectorAll('.voo_interno-item').forEach((item) => {
+      const idMatch = item.id.match(/voo_interno-item-(\d+)/);
+      if (!idMatch) return;
+      const id = idMatch[1];
+      voos_internos.push({
+        origem:  v('voo_interno_origem_'  + id),
+        destino:   v('voo_interno_destino_'   + id),
+        data: v('voo_interno_data_' + id),
+        horario: v('voo_interno_horario' + id),
+        numero_voo: v('voo_interno_numero' + id), 
+        duracao_voo: v('voo_interno_duracao' + id),
+        qtd_pessoa_voo: v('voo_interno_qtd_pessoas' + id),
+        conexao: v('conexao' + id),
+        paradas: v('paradas' + id),
+      });
+    });
+
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF({ unit: 'mm', format: 'a4' });
 
@@ -144,6 +163,9 @@ document.getElementById('pdfForm').addEventListener('submit', async function(e) 
       y = twoRows('Conexão', 'Não  |  Voo direto', 'Passageiros', v('qtd_pessoas_ida') || '1', y);
     }
     y = dividerLine(y);
+
+    // ── VOO INTERNO ────────────────────────────────────────────────────────────
+    y = sectionTitle('Voo - Interno', y)
 
     // ── VOO VOLTA ────────────────────────────────────────────────────────────
     y = sectionTitle('Voo - Volta', y);
