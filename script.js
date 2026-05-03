@@ -14,6 +14,19 @@ document.getElementById('pdfForm').addEventListener('submit', function(e) {
       return 'R$ ' + parseFloat(val).toFixed(2).replace('.', ',');
     };
 
+    // Coletar bagagens dinâmicas
+    const bagagens = [];
+    document.querySelectorAll('.bagagem-item').forEach((item) => {
+      const idMatch = item.id.match(/bagagem-item-(\d+)/);
+      if (!idMatch) return;
+      const id = idMatch[1];
+      bagagens.push({
+        tipo:  v('bagagem_tipo_'  + id),
+        qtd:   v('bagagem_qtd_'   + id) || '0',
+        valor: v('bagagem_valor_' + id),
+      });
+    });
+
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF({ unit: 'mm', format: 'a4' });
 
@@ -21,7 +34,7 @@ document.getElementById('pdfForm').addEventListener('submit', function(e) {
     const margin = 18;
     let y = 0;
 
-    const blue    = [26, 86, 219];
+    const blue    = [0, 151, 178];
     const white   = [255, 255, 255];
     const light   = [240, 244, 248];
     const dark    = [26, 32, 44];
@@ -148,79 +161,3 @@ document.getElementById('pdfForm').addEventListener('submit', function(e) {
     const nomeArquivo = `VoeMomentos_${cia || 'voo'}_${fmtDate(v('data_ida')).replace(/\//g,'-')}.pdf`;
     doc.save(nomeArquivo);
   });
-
-
-  // ── Paradas condicional ───────────────────────────────────────────────────
-  function toggleParadas(trecho) {
-    const checkbox = document.getElementById('conexao_' + trecho);
-    const field = document.getElementById('paradas_' + trecho + '_field');
-    field.style.display = checkbox.checked ? 'flex' : 'none';
-  }
-
-  // ── Bagagens dinâmicas ────────────────────────────────────────────────────
-  let bagagemCounter = 0;
-
-  function adicionarBagagem() {
-    bagagemCounter++;
-    const id = bagagemCounter;
-    const container = document.getElementById('bagagens-container');
-
-    const div = document.createElement('div');
-    div.className = 'bagagem-item';
-    div.id = 'bagagem-item-' + id;
-    div.innerHTML = `
-      <div class="bagagem-header">
-        <span class="bagagem-label">Bagagem 1</span>
-        <button type="button" class="btn-remove" onclick="removerBagagem(${id})">Remover</button>
-      </div>
-      <div class="form-grid">
-        <div class="field">
-          <label>Tipo</label>
-          <select id="bagagem_tipo_${id}">
-            <option value="">Selecione</option>
-            <option value="Mochila/Bolsa">Mochila/Bolsa</option>
-            <option value="Bagagem de Mão">Bagagem de Mão</option>
-            <option value="Bagagem Despachada">Bagagem Despachada</option>
-          </select>
-        </div>
-        <div class="field">
-          <label>Quantidade</label>
-          <input type="number" id="bagagem_qtd_${id}" min="0" value="1">
-        </div>
-        <div class="field span2">
-          <label>Valor (R$)</label>
-          <input type="number" id="bagagem_valor_${id}" min="0" placeholder="0,00">
-        </div>
-      </div>
-    `;
-    container.appendChild(div);
-    atualizarNumeracao();
-  }
-
-  function removerBagagem(id) {
-    const el = document.getElementById('bagagem-item-' + id);
-    if (el) el.remove();
-    atualizarNumeracao();
-  }
-
-  function atualizarNumeracao() {
-    document.querySelectorAll('.bagagem-item .bagagem-label').forEach((label, i) => {
-      label.textContent = 'Bagagem ' + (i + 1);
-    });
-  }
-
-  // Inicia com uma bagagem
-  adicionarBagagem();
-
-  // Coletar bagagens dinâmicas
-    const bagagens = [];
-    document.querySelectorAll('.bagagem-item').forEach((item) => {
-      const idMatch = item.id.match(/bagagem-item-(\d+)/);
-      if (!idMatch) return;
-      const id = idMatch[1];
-      bagagens.push({
-        tipo:  v('bagagem_tipo_'  + id),
-        qtd:   v('bagagem_qtd_'   + id) || '0',
-        valor: v('bagagem_valor_' + id),
-      });
-    });

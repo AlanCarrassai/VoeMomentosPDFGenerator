@@ -159,5 +159,69 @@
     <button type="submit">Gerar PDF ↓</button>
   </form>
 </div>
+
+<script>
+  // ── Paradas condicional ───────────────────────────────────────────────────
+  function toggleParadas(trecho) {
+    const checkbox = document.getElementById('conexao_' + trecho);
+    const field = document.getElementById('paradas_' + trecho + '_field');
+    field.style.display = checkbox.checked ? 'flex' : 'none';
+  }
+
+  // ── Bagagens dinâmicas ────────────────────────────────────────────────────
+  let bagagemCounter = 0;
+
+  function adicionarBagagem() {
+    bagagemCounter++;
+    const id = bagagemCounter;
+    const container = document.getElementById('bagagens-container');
+
+    const div = document.createElement('div');
+    div.className = 'bagagem-item';
+    div.id = 'bagagem-item-' + id;
+    div.innerHTML = `
+      <div class="bagagem-header">
+        <span class="bagagem-label">Bagagem 1</span>
+        <button type="button" class="btn-remove" onclick="removerBagagem(${id})">Remover</button>
+      </div>
+      <div class="form-grid">
+        <div class="field">
+          <label>Tipo</label>
+          <select id="bagagem_tipo_${id}">
+            <option value="">Selecione</option>
+            <option value="Mochila/Bolsa">Mochila/Bolsa</option>
+            <option value="Bagagem de Mão">Bagagem de Mão</option>
+            <option value="Bagagem Despachada">Bagagem Despachada</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Quantidade</label>
+          <input type="number" id="bagagem_qtd_${id}" min="0" value="1">
+        </div>
+        <div class="field span2">
+          <label>Valor (R$)</label>
+          <input type="number" id="bagagem_valor_${id}" min="0" placeholder="0,00">
+        </div>
+      </div>
+    `;
+    container.appendChild(div);
+    atualizarNumeracao();
+  }
+
+  function removerBagagem(id) {
+    const el = document.getElementById('bagagem-item-' + id);
+    if (el) el.remove();
+    atualizarNumeracao();
+  }
+
+  function atualizarNumeracao() {
+    document.querySelectorAll('.bagagem-item .bagagem-label').forEach((label, i) => {
+      label.textContent = 'Bagagem ' + (i + 1);
+    });
+  }
+
+  // Inicia com uma bagagem
+  adicionarBagagem();
+</script>
 </body>
 </html>
