@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="font-noto.js"></script>
+    <script src="airports.js"></script>
     <script src="script.js" defer></script>
 
   <!-- Logos ocultas — compatível com file:// e servidor -->
@@ -67,11 +69,11 @@
       <div class="form-grid">
         <div class="field">
           <label for="origem_ida">Origem</label>
-          <input type="text" id="origem_ida" placeholder="Ex: São Paulo (GRU)" required>
+          <input type="text" id="origem_ida" autocomplete="off" placeholder="Ex: São Paulo (GRU)" required>
         </div>
         <div class="field">
           <label for="destino_ida">Destino</label>
-          <input type="text" id="destino_ida" placeholder="Ex: Rio de Janeiro (GIG)" required>
+          <input type="text" id="destino_ida" autocomplete="off" placeholder="Ex: Rio de Janeiro (GIG)" required>
         </div>
         <div class="field">
           <label for="data_ida">Data</label>
@@ -112,11 +114,11 @@
       <div class="form-grid">
         <div class="field">
           <label for="origem_volta">Origem</label>
-          <input type="text" id="origem_volta" placeholder="Ex: Rio de Janeiro (GIG)">
+          <input type="text" id="origem_volta" autocomplete="off" placeholder="Ex: Rio de Janeiro (GIG)">
         </div>
         <div class="field">
           <label for="destino_volta">Destino</label>
-          <input type="text" id="destino_volta" placeholder="Ex: São Paulo (GRU)">
+          <input type="text" id="destino_volta" autocomplete="off" placeholder="Ex: São Paulo (GRU)">
         </div>
         <div class="field">
           <label for="data_volta">Data</label>

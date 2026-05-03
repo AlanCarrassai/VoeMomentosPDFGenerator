@@ -147,59 +147,137 @@
       .field.span2 { grid-column: span 1; }
     }
 
-    /* ── Bagagem dinâmica ─────────────────────────────── */
-    .bagagem-item {
-    border: 1.5px solid #e2e8f0;
-    border-radius: 10px;
-    padding: 1rem;
-    margin-bottom: 0.75rem;
-    }
+  /* ── Bagagem dinâmica ─────────────────────────────── */
+  .bagagem-item {
+  border: 1.5px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 1rem;
+  margin-bottom: 0.75rem;
+  }
 
-    .bagagem-header {
+  .bagagem-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.9rem;
+  }
+
+  .bagagem-label {
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #01d9ff;
+  }
+
+  .btn-remove {
+  background: none;
+  border: 1.5px solid #fca5a5;
+  color: #dc2626;
+  border-radius: 6px;
+  padding: 4px 10px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+  }
+
+  .btn-remove:hover {
+  background: #fee2e2;
+  }
+
+  .btn-add {
+  width: 100%;
+  margin-top: 0.5rem;
+  padding: 9px;
+  background: none;
+  border: 1.5px dashed #93c5fd;
+  color: #01d9ff;
+  border-radius: 8px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+  }
+
+  .btn-add:hover {
+  background: #eff6ff;
+  }
+
+  /* ── Autocomplete aeroportos ──────────────────────── */
+  .airport-dropdown {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: #fff;
+    border: 1.5px solid #bfdbfe;
+    border-radius: 10px;
+    box-shadow: 0 8px 24px rgba(26,86,219,0.13);
+    z-index: 100;
+    list-style: none;
+    padding: 4px 0;
+    margin-top: 3px;
+    max-height: 280px;
+    overflow-y: auto;
+  }
+  
+  .airport-dropdown li {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    margin-bottom: 0.9rem;
-    }
-
-    .bagagem-label {
-    font-size: 0.78rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: #01d9ff;
-    }
-
-    .btn-remove {
-    background: none;
-    border: 1.5px solid #fca5a5;
-    color: #dc2626;
-    border-radius: 6px;
-    padding: 4px 10px;
-    font-size: 0.78rem;
-    font-weight: 600;
+    gap: 10px;
+    padding: 8px 12px;
     cursor: pointer;
-    transition: background 0.15s;
-    }
-
-    .btn-remove:hover {
-    background: #fee2e2;
-    }
-
-    .btn-add {
-    width: 100%;
-    margin-top: 0.5rem;
-    padding: 9px;
-    background: none;
-    border: 1.5px dashed #93c5fd;
-    color: #01d9ff;
-    border-radius: 8px;
+    transition: background 0.12s;
+  }
+  
+  .airport-dropdown li:hover,
+  .airport-dropdown li.active {
+    background: #eff6ff;
+  }
+  
+  .airport-iata {
+    font-size: 0.82rem;
+    font-weight: 800;
+    color: #1a56db;
+    background: #dbeafe;
+    border-radius: 5px;
+    padding: 2px 6px;
+    min-width: 36px;
+    text-align: center;
+    letter-spacing: 0.05em;
+    flex-shrink: 0;
+  }
+  
+  .airport-info {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-width: 0;
+  }
+  
+  .airport-city {
     font-size: 0.88rem;
     font-weight: 600;
-    cursor: pointer;
-    transition: background 0.15s;
-    }
+    color: #1a202c;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  .airport-name {
+    font-size: 0.73rem;
+    color: #94a3b8;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  .airport-country {
+    font-size: 0.72rem;
+    color: #94a3b8;
+    flex-shrink: 0;
+  }
 
-    .btn-add:hover {
-    background: #eff6ff;
-    }
+  
