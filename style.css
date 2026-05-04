@@ -1,0 +1,306 @@
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #0097B2;
+      min-height: 100vh;
+      padding: 2rem 1rem;
+      color: #1a202c;
+    }
+
+    .container {
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    header h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #ffffff;
+      letter-spacing: -0.5px;
+    }
+
+    header p {
+      color: #e0e0e0;
+      margin-top: 0.4rem;
+      font-size: 0.95rem;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 14px;
+      border: 1px solid #e2e8f0;
+      padding: 1.5rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .card h2 {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #01d9ff;
+      margin-bottom: 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .card h2::before {
+      content: '';
+      display: inline-block;
+      width: 3px;
+      height: 14px;
+      background: #01d9ff;
+      border-radius: 2px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .form-grid.full { grid-template-columns: 1fr; }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .field.span2 { grid-column: span 2; }
+
+    label {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: #475569;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 9px 12px;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      color: #1a202c;
+      background: #f8fafc;
+      transition: border-color 0.2s, background 0.2s;
+      outline: none;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      border-color: #0097B2;
+      background: #fff;
+    }
+
+    textarea { resize: vertical; min-height: 80px; }
+
+    .checkbox-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 0;
+    }
+
+    .checkbox-row input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      accent-color: #0097B2;
+    }
+
+    .checkbox-row label {
+      text-transform: none;
+      font-size: 0.9rem;
+      letter-spacing: 0;
+      font-weight: 500;
+      color: #1a202c;
+    }
+
+    button[type="submit"] {
+      width: 100%;
+      padding: 14px;
+      background: #01d9ff;
+      color: #fff;
+      font-size: 1rem;
+      font-weight: 700;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+      letter-spacing: 0.02em;
+      margin-top: 0.5rem;
+    }
+
+    button[type="submit"]:hover { background: #1648c0; }
+    button[type="submit"]:active { transform: scale(0.98); }
+
+    @media (max-width: 500px) {
+      .form-grid { grid-template-columns: 1fr; }
+      .field.span2 { grid-column: span 1; }
+    }
+
+  /* ── Bagagem dinâmica ─────────────────────────────── */
+  .bagagem-item {
+  border: 1.5px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 1rem;
+  margin-bottom: 0.75rem;
+  }
+
+  .bagagem-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.9rem;
+  }
+
+  .bagagem-label {
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #01d9ff;
+  }
+
+  .btn-remove {
+  background: none;
+  border: 1.5px solid #fca5a5;
+  color: #dc2626;
+  border-radius: 6px;
+  padding: 4px 10px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+  }
+
+  .btn-remove:hover {
+  background: #fee2e2;
+  }
+
+  .btn-add {
+  width: 100%;
+  margin-top: 0.5rem;
+  padding: 9px;
+  background: none;
+  border: 1.5px dashed #93c5fd;
+  color: #01d9ff;
+  border-radius: 8px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+  }
+
+  .btn-add:hover {
+  background: #eff6ff;
+  }
+
+    /* ── Voo interno dinâmica ─────────────────────────────── */
+  .voo_interno-item {
+  border: 1.5px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 1rem;
+  margin-bottom: 0.75rem;
+  }
+
+  .voo_interno-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.9rem;
+  }
+
+  .voo_interno-label {
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #01d9ff;
+  }
+
+  /* ── Autocomplete aeroportos ──────────────────────── */
+  .airport-dropdown {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: #fff;
+    border: 1.5px solid #bfdbfe;
+    border-radius: 10px;
+    box-shadow: 0 8px 24px rgba(26,86,219,0.13);
+    z-index: 100;
+    list-style: none;
+    padding: 4px 0;
+    margin-top: 3px;
+    max-height: 280px;
+    overflow-y: auto;
+  }
+  
+  .airport-dropdown li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 12px;
+    cursor: pointer;
+    transition: background 0.12s;
+  }
+  
+  .airport-dropdown li:hover,
+  .airport-dropdown li.active {
+    background: #eff6ff;
+  }
+  
+  .airport-iata {
+    font-size: 0.82rem;
+    font-weight: 800;
+    color: #1a56db;
+    background: #dbeafe;
+    border-radius: 5px;
+    padding: 2px 6px;
+    min-width: 36px;
+    text-align: center;
+    letter-spacing: 0.05em;
+    flex-shrink: 0;
+  }
+  
+  .airport-info {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-width: 0;
+  }
+  
+  .airport-city {
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: #1a202c;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  .airport-name {
+    font-size: 0.73rem;
+    color: #94a3b8;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  .airport-country {
+    font-size: 0.72rem;
+    color: #94a3b8;
+    flex-shrink: 0;
+  }
+
+  

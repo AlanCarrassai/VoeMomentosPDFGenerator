@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="airports.js"></script>
+    <script src="script.js" defer></script>
+
+  <!-- Logos ocultas — compatível com file:// e servidor -->
+  <div style="display:none">
+    <img id="logo-voemomentos" src="logos/voemomentos.png">
+    <img id="logo-gol"         src="logos/gol.png">
+    <img id="logo-azul"        src="logos/azul.png">
+    <img id="logo-latam"       src="logos/latam.png">
+  </div>
+
+  <script>
+    function imgToBase64(imgEl) {
+      try {
+        const canvas = document.createElement('canvas');
+        canvas.width  = imgEl.naturalWidth  || imgEl.width;
+        canvas.height = imgEl.naturalHeight || imgEl.height;
+        canvas.getContext('2d').drawImage(imgEl, 0, 0);
+        return canvas.toDataURL('image/png');
+      } catch(e) { return null; }
+    }
+
+    window.logos = {};
+    window.addEventListener('load', () => {
+      window.logos.voemomentos = imgToBase64(document.getElementById('logo-voemomentos'));
+      window.logos.gol         = imgToBase64(document.getElementById('logo-gol'));
+      window.logos.azul        = imgToBase64(document.getElementById('logo-azul'));
+      window.logos.latam       = imgToBase64(document.getElementById('logo-latam'));
+    });
+  </script>
+    <title>VoeMomentos PDF</title>
+</head>
+<body>
+<div class="container">
+  <header>
+    <h1>✈ VoeMomentos PDF</h1>
+    <p>Preencha os dados abaixo para gerar o voucher do voo</p>
+  </header>
+
+  <form id="pdfForm">
+
+    <!-- CIA AÉREA -->
+    <div class="card">
+      <h2>Companhia Aérea</h2>
+      <div class="form-grid full">
+        <div class="field">
+          <label for="cia_aerea">CIA Aérea</label>
+          <select id="cia_aerea" required>
+            <option value="">Selecione uma opção</option>
+            <option value="Gol">Gol</option>
+            <option value="Azul">Azul</option>
+            <option value="Latam">Latam</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- VOO IDA -->
+    <div class="card">
+      <h2>Voo — Ida</h2>
+      <div class="form-grid">
+        <div class="field">
+          <label for="origem_ida">Origem</label>
+          <input type="text" id="origem_ida" autocomplete="off" placeholder="Ex: São Paulo (GRU)" required>
+        </div>
+        <div class="field">
+          <label for="destino_ida">Destino</label>
+          <input type="text" id="destino_ida" autocomplete="off" placeholder="Ex: Rio de Janeiro (GIG)" required>
+        </div>
+        <div class="field">
+          <label for="data_ida">Data</label>
+          <input type="date" id="data_ida" required>
+        </div>
+        <div class="field">
+          <label for="horario_ida">Horário</label>
+          <input type="time" id="horario_ida" required>
+        </div>
+        <div class="field">
+          <label for="numero_voo_ida">Número do Voo</label>
+          <input type="text" id="numero_voo_ida" placeholder="Ex: G3 1234" required>
+        </div>
+        <div class="field">
+          <label for="duracao_voo_ida">Duração do Voo</label>
+          <input type="text" id="duracao_voo_ida" placeholder="Ex: 1h30min" required>
+        </div>
+        <div class="field">
+          <label for="qtd_pessoas_ida">Qtd. de Pessoas</label>
+          <input type="number" id="qtd_pessoas_ida" min="1" value="1" required>
+        </div>
+        <div class="field span2">
+          <div class="checkbox-row">
+            <input type="checkbox" id="conexao_ida" onchange="toggleParadas('ida')">
+            <label for="conexao_ida">Tem conexão?</label>
+          </div>
+        </div>
+        <div class="field" id="paradas_ida_field" style="display:none;">
+          <label for="paradas_ida">Número de Paradas</label>
+          <input type="number" id="paradas_ida" min="1" value="1">
+        </div>
+      </div>
+    </div>
+
+    <!-- VOO INTERNO -->
+     <div class="card">
+      <h2>Voo - Interno</h2>
+        <div id="voo-container"></div>
+        <button type="button" class="btn-add" onclick="adicionarVooInterno()">+ Adicionar voo interno</button>
+     </div>
+
+    <!-- VOO VOLTA -->
+    <div class="card">
+      <h2>Voo — Volta</h2>
+      <div class="form-grid">
+        <div class="field">
+          <label for="origem_volta">Origem</label>
+          <input type="text" id="origem_volta" autocomplete="off" placeholder="Ex: Rio de Janeiro (GIG)" required>
+        </div>
+        <div class="field">
+          <label for="destino_volta">Destino</label>
+          <input type="text" id="destino_volta" autocomplete="off" placeholder="Ex: São Paulo (GRU)" required>
+        </div>
+        <div class="field">
+          <label for="data_volta">Data</label>
+          <input type="date" id="data_volta" required>
+        </div>
+        <div class="field">
+          <label for="horario_volta">Horário</label>
+          <input type="time" id="horario_volta" required>
+        </div>
+        <div class="field">
+          <label for="numero_voo_volta">Número do Voo</label>
+          <input type="text" id="numero_voo_volta" placeholder="Ex: G3 1234" required>
+        </div>
+        <div class="field">
+          <label for="duracao_voo_volta">Duração do Voo</label>
+          <input type="text" id="duracao_voo_volta" placeholder="Ex: 1h30min" required>
+        </div>
+        <div class="field">
+          <label for="qtd_pessoas_volta">Qtd. de Pessoas</label>
+          <input type="number" id="qtd_pessoas_volta" min="1" value="1" required>
+        </div>
+        <div class="field span2">
+          <div class="checkbox-row">
+            <input type="checkbox" id="conexao_volta" onchange="toggleParadas('volta')">
+            <label for="conexao_volta">Tem conexão?</label>
+          </div>
+        </div>
+        <div class="field" id="paradas_volta_field" style="display:none;">
+          <label for="paradas_volta">Número de Paradas</label>
+          <input type="number" id="paradas_volta" min="1" value="1">
+        </div>
+      </div>
+    </div>
+
+    <!-- BAGAGEM -->
+    <div class="card">
+      <h2>Bagagem</h2>
+      <div id="bagagens-container"></div>
+      <button type="button" class="btn-add" onclick="adicionarBagagem()">+ Adicionar bagagem</button>
+    </div>
+
+    <!-- VALORES -->
+    <div class="card">
+      <h2>Valores da Passagem</h2>
+      <div class="form-grid">
+        <div class="field span2">
+          <label for="valor_passagem_pix">Valor Pix (R$)</label>
+          <input type="number" id="valor_passagem_pix" min="0" placeholder="0,00">
+        </div>
+        <div class="field">
+          <label for="valor_passagem_parcelado">Valor Parcelado (R$)</label>
+          <input type="number" id="valor_passagem_parcelado" min="0" placeholder="0,00">
+        </div>
+        <div class="field">
+          <label for="qtd_parcelas">Qtd. Parcelas</label>
+          <input type="number" id="qtd_parcelas" min="1" value="1">
+        </div>
+      </div>
+    </div>
+
+    <!-- OBSERVAÇÕES -->
+    <div class="card">
+      <h2>Observações</h2>
+      <div class="form-grid full">
+        <div class="field">
+          <label for="observacoes">Observações</label>
+          <textarea id="observacoes" placeholder="Informações adicionais sobre o voo..."></textarea>
+        </div>
+      </div>
+    </div>
+
+    <button type="submit">Gerar PDF ↓</button>
+  </form>
+</div>
+
+<script>
+  // ── Paradas condicional ───────────────────────────────────────────────────
+  function toggleParadas(trecho) {
+    const checkbox = document.getElementById('conexao_' + trecho);
+    const field = document.getElementById('paradas_' + trecho + '_field');
+    field.style.display = checkbox.checked ? 'flex' : 'none';
+  }
+
+  // ── Bagagens dinâmicas ────────────────────────────────────────────────────
+  let bagagemCounter = 0;
+
+  function adicionarBagagem() {
+    bagagemCounter++;
+    const id = bagagemCounter;
+    const container = document.getElementById('bagagens-container');
+
+    const div = document.createElement('div');
+    div.className = 'bagagem-item';
+    div.id = 'bagagem-item-' + id;
+    div.innerHTML = `
+      <div class="bagagem-header">
+        <span class="bagagem-label">Bagagem 1</span>
+        <button type="button" class="btn-remove" onclick="removerBagagem(${id})">Remover</button>
+      </div>
+      <div class="form-grid">
+        <div class="field">
+          <label>Tipo</label>
+          <select id="bagagem_tipo_${id}" required>
+            <option value="">Selecione</option>
+            <option value="Mochila/Bolsa">Mochila/Bolsa</option>
+            <option value="Bagagem de Mão">Bagagem de Mão</option>
+            <option value="Bagagem Despachada">Bagagem Despachada</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Quantidade</label>
+          <input type="number" id="bagagem_qtd_${id}" min="0" value="1" required>
+        </div>
+        <div class="field span2">
+          <label>Valor (R$)</label>
+          <input type="number" id="bagagem_valor_${id}" min="0" placeholder="0,00">
+        </div>
+      </div>
+    `;
+    container.appendChild(div);
+    atualizarNumeracao();
+  }
+
+  function removerBagagem(id) {
+    const el = document.getElementById('bagagem-item-' + id);
+    if (el) el.remove();
+    atualizarNumeracao();
+  }
+
+  function atualizarNumeracao() {
+    document.querySelectorAll('.bagagem-item .bagagem-label').forEach((label, i) => {
+      label.textContent = 'Bagagem ' + (i + 1);
+    });
+  }
+
+  // Inicia com uma bagagem
+  adicionarBagagem();
+</script>
+
+<script>
+    // ── Voos internos dinâmicos ────────────────────────────────────────────────────
+  let vooInternoCounter = 0;
+
+  function adicionarVooInterno() {
+    vooInternoCounter++;
+    const id = vooInternoCounter;
+    const container = document.getElementById('voo-container');
+
+    const div = document.createElement('div');
+    div.className = 'voo_interno-item';
+    div.id = 'voo_interno-item-' + id;
+    div.innerHTML = `
+      <div class="voo_interno-header">
+        <span class="voo_interno-label">Voo interno 1</span>
+        <button type="button" class="btn-remove" onclick="removerVooInterno(${id})">Remover</button>
+      </div>
+      <div class="form-grid">
+        <div class="field">
+          <label for="origem_ida">Origem</label>
+          <input type="text" id="origem_${id}" autocomplete="off" placeholder="Ex: São Paulo (GRU)" required>
+        </div>
+        <div class="field">
+          <label for="destino_ida">Destino</label>
+          <input type="text" id="destino_${id}" autocomplete="off" placeholder="Ex: Rio de Janeiro (GIG)" required>
+        </div>
+        <div class="field">
+          <label for="data_ida">Data</label>
+          <input type="date" id="data_${id}" required>
+        </div>
+        <div class="field">
+          <label for="horario_ida">Horário</label>
+          <input type="time" id="horario_${id}" required>
+        </div>
+        <div class="field">
+          <label for="numero_voo_ida">Número do Voo</label>
+          <input type="text" id="numero_voo_${id}" placeholder="Ex: G3 1234" required>
+        </div>
+        <div class="field">
+          <label for="duracao_voo_ida">Duração do Voo</label>
+          <input type="text" id="duracao_voo_${id}" placeholder="Ex: 1h30min" required>
+        </div>
+        <div class="field">
+          <label for="qtd_pessoas_voo">Qtd. de Pessoas</label>
+          <input type="number" id="qtd_pessoas_voo_${id}" min="1" value="1" required>
+        </div>
+        <div class="field span2">
+          <div class="checkbox-row">
+            <input type="checkbox"
+                  id="conexao_voo_interno_${id}"
+                  onchange="toggleParadas('voo_interno_${id}')">
+            <label for="conexao_voo_interno_${id}">Tem conexão?</label>
+          </div>
+        </div>
+        <div class="field"
+            id="paradas_voo_interno_${id}_field"
+            style="display:none;">
+          <label for="paradas_${id}">Número de Paradas</label>
+          <input type="number" id="paradas_${id}" min="1" value="1">
+        </div>
+      </div>
+    `;
+    container.appendChild(div);
+    initAirportAutocomplete(`origem_${id}`);
+    initAirportAutocomplete(`destino_${id}`);
+    atualizarNumeracaoVooInterno();
+  }
+
+  function removerVooInterno(id) {
+    const el = document.getElementById('voo_interno-item-' + id);
+    if (el) el.remove();
+    atualizarNumeracaoVooInterno();
+  }
+
+  function atualizarNumeracaoVooInterno() {
+    document.querySelectorAll('.voo_interno-item .voo_interno-label').forEach((label, i) => {
+      label.textContent = 'Voo interno ' + (i + 1);
+    });
+  }
+</script>
+</body>
+</html>
