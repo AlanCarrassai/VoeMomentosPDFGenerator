@@ -303,4 +303,10 @@
     flex-shrink: 0;
   }
 
+  .subvoo-item {
+  border-left: 2px solid #ccc;
+  margin: 12px 0 0 16px;
+  padding-left: 16px;
+}
+
   
